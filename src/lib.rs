@@ -85,7 +85,7 @@ where
     /// # Examples
     ///
     /// ```
-    /// use treebitmap::IpLookupTable;
+    /// use iptreebitmap::IpLookupTable;
     /// use std::net::Ipv6Addr;
     ///
     /// let mut table = IpLookupTable::new();
@@ -106,7 +106,7 @@ where
     /// # Examples
     ///
     /// ```
-    /// use treebitmap::IpLookupTable;
+    /// use iptreebitmap::IpLookupTable;
     /// use std::net::Ipv6Addr;
     ///
     /// let mut table = IpLookupTable::new();
@@ -132,7 +132,7 @@ where
     /// # Examples
     ///
     /// ```
-    /// use treebitmap::IpLookupTable;
+    /// use iptreebitmap::IpLookupTable;
     /// use std::net::Ipv6Addr;
     ///
     /// let mut table = IpLookupTable::new();
@@ -154,7 +154,7 @@ where
     /// # Examples
     ///
     /// ```
-    /// use treebitmap::IpLookupTable;
+    /// use iptreebitmap::IpLookupTable;
     /// use std::net::Ipv6Addr;
     ///
     /// let mut table = IpLookupTable::new();
@@ -180,7 +180,7 @@ where
     /// # Example
     ///
     /// ```
-    /// use treebitmap::IpLookupTable;
+    /// use iptreebitmap::IpLookupTable;
     /// use std::net::Ipv6Addr;
     ///
     /// let mut table = IpLookupTable::new();
@@ -212,7 +212,7 @@ where
     /// # Example
     ///
     /// ```
-    /// use treebitmap::IpLookupTable;
+    /// use iptreebitmap::IpLookupTable;
     /// use std::net::Ipv6Addr;
     ///
     /// let mut table = IpLookupTable::new();
@@ -244,7 +244,7 @@ where
     /// # Example
     ///
     /// ```
-    /// use treebitmap::IpLookupTable;
+    /// use iptreebitmap::IpLookupTable;
     /// use std::net::Ipv6Addr;
     ///
     /// let mut table = IpLookupTable::new();
@@ -282,7 +282,7 @@ where
     /// # Examples
     ///
     /// ```
-    /// use treebitmap::IpLookupTable;
+    /// use iptreebitmap::IpLookupTable;
     /// use std::net::Ipv6Addr;
     ///
     /// let mut table = IpLookupTable::new();
@@ -296,7 +296,7 @@ where
     /// assert_eq!(iter.next(), Some((more_specific, 48, &"bar")));
     /// assert_eq!(iter.next(), None);
     /// ```
-    pub fn iter(&self) -> Iter<A, T> {
+    pub fn iter(&self) -> Iter<'_, A, T> {
         Iter {
             inner: self.inner.iter(),
             _addrtype: PhantomData,
@@ -308,7 +308,7 @@ where
     /// # Examples
     ///
     /// ```
-    /// use treebitmap::IpLookupTable;
+    /// use iptreebitmap::IpLookupTable;
     /// use std::net::Ipv6Addr;
     ///
     /// let x: Ipv6Addr = "2001:db8:100::".parse().unwrap();
@@ -328,7 +328,7 @@ where
     /// assert_eq!(table.exact_match(y, 56), Some(&12));
     /// assert_eq!(table.exact_match(z, 56), Some(&13));
     /// ```
-    pub fn iter_mut(&mut self) -> IterMut<A, T> {
+    pub fn iter_mut(&mut self) -> IterMut<'_, A, T> {
         IterMut {
             inner: self.inner.iter_mut(),
             _addrtype: PhantomData,

@@ -1,13 +1,10 @@
-extern crate rand;
-extern crate treebitmap;
-
 use std::mem;
 use std::net::{Ipv4Addr, Ipv6Addr};
 
-use self::rand::{thread_rng, Rng};
+use rand::{rng, Rng};
 
-use treebitmap::address::Address;
-use treebitmap::*;
+use iptreebitmap::address::Address;
+use iptreebitmap::*;
 
 const NUMBER_OF_ITERS: usize = 10; // number of times to run each test
 const NUMBER_OF_PEERS: usize = 64; // number of distinct values
@@ -64,7 +61,7 @@ impl<T, A: Address> SlowNode<T, A> {
         for i in 0..nibs.len() * 4 {
             if i >= self.masklen as usize {
                 let idx = i % 4;
-                let bit: u8 = rng.gen();
+                let bit: u8 = rng.random();
                 let bit = (bit & 0x80) >> 4; // top-most bit of a nibble
                 nibs[i / 4] ^= bit >> idx;
                 assert!(nibs[i / 4] < 16);
@@ -122,7 +119,7 @@ impl<T, A: Address> SlowRouter<T, A> {
     where
         R: Rng,
     {
-        let idx = rng.gen_range(0, self.nodes.len());
+        let idx = rng.random_range(0..self.nodes.len());
         self.nodes[idx].in_range(rng)
     }
 }
@@ -133,33 +130,33 @@ fn ipv6_random_test() {
     for _ in 0..NUMBER_OF_ITERS {
         let mut tbl = IpLookupTable::new();
         let mut slw = SlowRouter::new();
-        let mut rng = thread_rng();
+        let mut rng = rng();
 
         macro_rules! ipv6 {
             () => {{
                 Ipv6Addr::new(
-                    rng.gen(),
-                    rng.gen(),
-                    rng.gen(),
-                    rng.gen(),
-                    rng.gen(),
-                    rng.gen(),
-                    rng.gen(),
-                    rng.gen(),
+                    rng.random(),
+                    rng.random(),
+                    rng.random(),
+                    rng.random(),
+                    rng.random(),
+                    rng.random(),
+                    rng.random(),
+                    rng.random(),
                 )
             }};
         }
 
         for _ in 0..NUMBER_OF_ADDRESS {
-            let masklen = rng.gen_range(0, 128);
+            let masklen = rng.random_range(0..128);
             let ip = ipv6!().mask(masklen);
-            let value = rng.gen_range(0, NUMBER_OF_PEERS);
+            let value = rng.random_range(0..NUMBER_OF_PEERS);
             tbl.insert(ip, masklen, value);
             slw.insert(ip, masklen, value);
         }
 
         for _ in 0..NUMBER_OF_LOOKUPS {
-            let ip = if rng.gen() {
+            let ip = if rng.random() {
                 slw.any(&mut rng)
             } else {
                 ipv6!()
@@ -179,24 +176,24 @@ fn ipv4_random_test() {
     for _ in 0..NUMBER_OF_ITERS {
         let mut tbl = IpLookupTable::new();
         let mut slw = SlowRouter::new();
-        let mut rng = thread_rng();
+        let mut rng = rng();
 
         macro_rules! ipv4 {
             () => {{
-                Ipv4Addr::new(rng.gen(), rng.gen(), rng.gen(), rng.gen())
+                Ipv4Addr::new(rng.random(), rng.random(), rng.random(), rng.random())
             }};
         }
 
         for _ in 0..NUMBER_OF_ADDRESS {
-            let masklen = rng.gen_range(0, 32);
+            let masklen = rng.random_range(0..32);
             let ip = ipv4!().mask(masklen);
-            let value = rng.gen_range(0, NUMBER_OF_PEERS);
+            let value = rng.random_range(0..NUMBER_OF_PEERS);
             tbl.insert(ip, masklen, value);
             slw.insert(ip, masklen, value);
         }
 
         for _ in 0..NUMBER_OF_LOOKUPS {
-            let ip = if rng.gen() {
+            let ip = if rng.random() {
                 slw.any(&mut rng)
             } else {
                 ipv4!()

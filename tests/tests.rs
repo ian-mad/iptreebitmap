@@ -3,14 +3,11 @@
 // Licensed under the MIT license <LICENSE-MIT or http://opensource.org/licenses/MIT>.
 // This file may not be copied, modified, or distributed except according to those terms.
 //
-
-extern crate treebitmap;
-
 mod rand_test;
 
 use std::net::{Ipv4Addr, Ipv6Addr};
 use std::str::FromStr;
-use treebitmap::*;
+use iptreebitmap::*;
 
 #[test]
 #[should_panic]
