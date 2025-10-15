@@ -65,14 +65,13 @@ pub struct BucketVec<T> {
 
 impl<T: fmt::Debug> fmt::Debug for BucketVec<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let self_buf = unsafe { slice::from_raw_parts(self.buf.ptr(), self.len as usize) };
         f.debug_struct("BucketVec")
             .field("spacing", &self.spacing)
             .field("freelist", &self.freelist)
             .field("len", &self.len)
             .field("cap", &self.buf.cap())
-            .field("buf", unsafe {
-                &slice::from_raw_parts(self.buf.ptr(), self.len as usize)
-            })
+            .field("buf", &self_buf)
             .finish()
     }
 }

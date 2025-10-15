@@ -1,7 +1,7 @@
 [package]
 name = "iptreebitmap"
 version = "1.0.0"
-edition = "2021"
+edition = "2024"
 authors = ["Hroi Sigurdsson <hroi@asdf.dk>", "Jakub Onderka <ahoj@jakubonderka.cz>", "ian-mad <ianmad@tuta.io>"]
 description = "Fast IPv4/IPv6 lookup trie."
 license = "MIT"
